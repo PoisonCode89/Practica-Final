@@ -68,7 +68,7 @@ public class Compra {
 
 	@Override
 	public String toString() {
-		return "Compra [fecha=" + fecha + ", total=" + total + "]";
+		return "Compra [Cliente=" + cliente.getDni() +", fecha=" + fecha + ", total=" + total + "]";
 	}
 	
 	

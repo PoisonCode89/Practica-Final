@@ -14,10 +14,8 @@ import java.util.Map;
 public class Tienda {
 	
 	private String nombreTienda;
-	
 	private ArrayList<Producto> productos = new ArrayList<>();
 	private ArrayList<Cliente> clientes = new ArrayList<>();
-	
 	private Map<String,ArrayList<Compra>> compraCliente = new HashMap<String,ArrayList<Compra>>();
 
 	

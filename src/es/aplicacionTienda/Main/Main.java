@@ -1,6 +1,8 @@
 package es.aplicacionTienda.Main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -11,10 +13,14 @@ import es.aplicacionTienda.beans.Producto;
 import es.aplicacionTienda.beans.Tienda;
 
 public class Main {
-
+	
+	private static Map<String, ArrayList<Compra>> listaClientes = new HashMap<String, ArrayList<Compra>>();
+	private static ArrayList<Producto> productos = new ArrayList<Producto>();
+	private static ArrayList<Compra> listaCompras = new ArrayList<Compra>();
+	
 	public static void main(String[] args) {
-		Map<String, ArrayList<Compra>> listaClientes = new HashMap<String, ArrayList<Compra>>();
-		ArrayList<Producto> productos = new ArrayList<Producto>();
+		
+		
 		Tienda t = new Tienda();
 		Cliente c1 = new Cliente("User1", "Surname", "Road", "6161616", "469745Y");
 
@@ -30,6 +36,7 @@ public class Main {
 		productos.add(perfumeria);
 		t.setNombreEmpresa("Tienda de Barrio");
 		t.setProductos(productos);
+		
 
 		Scanner sc = new Scanner(System.in);
 
@@ -159,12 +166,13 @@ public class Main {
 	}
 
 	private static void listaDeCompradores(Tienda t) {
-		for (Map.Entry<String, ArrayList<Compra>> entry : t.getCompraCliente().entrySet()) {
-			System.out.println("clave=" + entry.getKey());
-			for (Compra c : entry.getValue()) {
-				System.out.println(c.toString());
-			}
+		int i=0;
+		for (i=0;i<listaCompras.size();i++){
+			System.out.println(listaCompras.get(i).toString());
+			
 		}
+		
+		
 
 	}
 
@@ -213,7 +221,14 @@ public class Main {
 	private static void hacerCompra(Cliente c1, Tienda t, Compra compra) {
 		Scanner sc = new Scanner(System.in);
 		mostrarProductos(t);
-		String fecha = "08/11/2018";
+		String fecha = "";
+		Date dfecha = new Date();
+		System.out.println(dfecha);
+		String formato= "dd/MMM/yyyy";
+		SimpleDateFormat sdf = new SimpleDateFormat(formato);
+		fecha=sdf.format(dfecha);
+		System.out.println(fecha);
+		
 		System.out.println("Indica el nombre del producto: ");
 		System.out.println("===============================================");
 		String nombre = sc.nextLine();
@@ -227,12 +242,14 @@ public class Main {
 					compra.setFecha(fecha);
 					compra.compraTotal(stock, p);
 					t.bajarStock(stock, nombre);
+					System.out.println(" cliente que ha comprado ="+compra.getCliente().getDni());
 				} else {
 					System.out.println("No hay suficientes productos");
 				}
 
 			}
 		}
+		listaCompras.add(compra);
 	}
 
 	private static void pagarCompra(Cliente c1, Tienda t, Compra compra, Map<String, ArrayList<Compra>> listaClientes) {
@@ -242,6 +259,7 @@ public class Main {
 
 		listaClientes.put(c1.getDni(), lista);
 		t.setCompraCliente(listaClientes);
+		System.out.println("COMPRA======"+t.getCompraCliente().toString());
 	}
 
 	private static void bajarStock(Tienda t) {
